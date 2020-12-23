@@ -1,0 +1,167 @@
+[
+    {
+        "id": "f6371c6a.06fcc",
+        "type": "tab",
+        "label": "MQTT to Kafka",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c7e8bd77.5df84",
+        "type": "mqtt in",
+        "z": "f6371c6a.06fcc",
+        "name": "",
+        "topic": "iotkit/#",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "8a4d6f84.20268",
+        "x": 290,
+        "y": 120,
+        "wires": [
+            [
+                "dd3f2f21.58773",
+                "82463576.0e6568"
+            ]
+        ]
+    },
+    {
+        "id": "dd3f2f21.58773",
+        "type": "change",
+        "z": "f6371c6a.06fcc",
+        "name": "topic",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "iotkit/alert",
+                "fromt": "str",
+                "to": "broker_message",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "iotkit/sensor",
+                "fromt": "str",
+                "to": "broker_message",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "iotkit/rfid",
+                "fromt": "str",
+                "to": "broker_message",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "iotkit/encoder",
+                "fromt": "str",
+                "to": "broker_message",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "iotkit/button",
+                "fromt": "str",
+                "to": "broker_message",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 120,
+        "wires": [
+            [
+                "e5b153fe.e7e89"
+            ]
+        ]
+    },
+    {
+        "id": "e5b153fe.e7e89",
+        "type": "Kafka Producer",
+        "z": "f6371c6a.06fcc",
+        "name": "",
+        "broker": "33fcb129.b6642e",
+        "topic": "broker_message",
+        "requireAcks": 1,
+        "ackTimeoutMs": 100,
+        "partitionerType": 0,
+        "key": "",
+        "partition": 0,
+        "attributes": 0,
+        "connectionType": "Producer",
+        "x": 720,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "82463576.0e6568",
+        "type": "debug",
+        "z": "f6371c6a.06fcc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 470,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8a4d6f84.20268",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "mosquitto",
+        "broker": "iotkit.mc-b.ch",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "33fcb129.b6642e",
+        "type": "Kafka Broker",
+        "z": "",
+        "name": "kafka",
+        "hosts": [
+            {
+                "host": "kafka",
+                "port": 9092
+            }
+        ],
+        "connectTimeout": "10000",
+        "requestTimeout": "30000",
+        "autoConnect": "true",
+        "idleConnection": "5",
+        "reconnectOnIdle": "true",
+        "maxAsyncRequests": "10",
+        "checkInterval": "10",
+        "usetls": false
+    }
+]
