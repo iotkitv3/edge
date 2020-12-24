@@ -1,7 +1,7 @@
 Edge Computing
 ==============
 
-> [⇧ **Home**](https://github.com/iotkitv4/intro)
+> [⇧ **Home**](https://github.com/iotkitv3/intro)
 
 Edge Computing bezeichnet im Gegensatz zum Cloud Computing die dezentrale Datenverarbeitung am Rand des Netzwerks, der sogenannten Edge (engl. für Rand oder Kante).
 
@@ -139,7 +139,7 @@ Details zu BPMN und dem Prozess [siehe](https://github.com/mc-b/misegr/tree/mast
 
 ### Node-RED (MQTT - Edge - REST)
 
-![](https://raw.githubusercontent.com/iotkitv4/intro/main/images/NodeREDREST.png)
+![](https://raw.githubusercontent.com/iotkitv3/intro/main/images/NodeREDREST.png)
 
 - - -
 
@@ -187,7 +187,7 @@ In Kubernetes starten wie die benötigten Services:
 ### Node-RED (MQTT - Edge - Cloud Messaging)
 
 
-![](https://raw.githubusercontent.com/iotkitv4/intro/main/images/NodeREDKafka.png)
+![](https://raw.githubusercontent.com/iotkitv3/intro/main/images/NodeREDKafka.png)
 
 - - -
 
