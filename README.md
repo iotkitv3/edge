@@ -259,3 +259,27 @@ Topics auslesen, lesen und schreiben auf Topics in Kafka Container, siehe [Proje
 
 Der Flow zum importieren und anpassen, siehe [Node-RED-Kafka.json](Node-RED-Kafka.json).
 
+#### Machine Learning mit Juypter Notebooks
+
+![](https://raw.githubusercontent.com/iotkitv3/intro/main/images/MachineLearning.png)
+
+Ein [Jupyter Notebook](https://jupyter.org/) ist eine Open-Source-Webanwendung, mit der Sie wiederholende Abläufe erstellen können. Die Live-Code, Gleichungen, Visualisierungen und Text enthalten können.
+
+Verwendungsmöglichkeiten:
+* Datenbereinigung und -transformation
+* numerische Simulation
+* statistische Modellierung
+* Datenvisualisierung
+* maschinelles Lernen und vieles mehr.
+
+Jupyter Notebooks laufen lokal, ein einem Container oder in der Cloud.
+
+**Maschinelles Lernen** ist ein Oberbegriff für die «künstliche» Generierung von Wissen aus Erfahrung. Ein künstliches System lernt aus Beispielen und kann diese nach Beendigung der Lernphase verallgemeinern. Das heisst, es werden nicht einfach die Beispiele auswendig gelernt, sondern es «erkennt» Muster und Gesetzmässigkeiten in den Lerndaten. 
+
+Das Juypter Notebook [MLTempHumSensor](https://github.com/mc-b/mlg/blob/master/data/mlg/02-2-MLTempHumSensor.ipynb) demonstriert [Predictive Maintenance](https://de.wikipedia.org/wiki/Pr%C3%A4diktive_Instandhaltung) anhand von Demodaten.
+
+Sollen die Live Daten des IoTKitV3 ausgewertet werden, ist der Code unter "Gegenprüfung mit Testdaten" wie folgt zu ändern:
+
+    test = pd.read_csv('ml-data.csv', header=None, names=['sensor', 'temp', 'hum', 'class'] )
+    
+Wird das Beispiel jetzt nochmals von vorne durchgespielt (Kernel -> Restart & Run All), erfolgt ein Vergleich mit den Live Daten des IoTKitV3.    
