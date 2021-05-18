@@ -24,11 +24,12 @@ Dabei kommen folgende Technologien/Produkte zum Einsatz:
     * die [Camunda Prozess (BPMN) Engine](https://camunda.com/) für Geschäftsprozesse Workflows
     * [Juypter Notebook](https://jupyter.org/) für die Verarbeitung der Daten mittels Machine Learning.
     
+***    
 Installation und Konfiguration
 ------------------------------
 
 ### Internet of Things (IoTKitV3)
-***
+
 
 * [MQTTPublish](https://github.com/iotkitv3/mqtt) Beispiel in mbed Studio importieren und ca. auf Zeile 21 den `hostname` mit der IP-Adresse auswechseln wo der Mosquitto Server läuft. 
 * Programm Compilieren und auf Board laden.
@@ -45,8 +46,8 @@ ausgewertet werden.
 
 Für Details siehe das [MQTTPublish](https://github.com/iotkitv3/mqtt/blob/main/main.cpp) Beispielprogramm.
 
-### Edge (Raspberry Pi)
 ***
+### Edge (Raspberry Pi)
 
 #### Raspberry Pi 2 oder 3 als Edge aufsetzen
 
@@ -58,98 +59,30 @@ Dazu ist der Raspbery Pi (2, 3) wie folgt aufzusetzen:
 * Auf der SD Karte eine Datei «ssh» ohne Endung erstellen.
 * Auf Windows Git/Bash oder Putty o.ä. installieren. Mac und Linux brauchen nur Git.
 * Raspberry Pi via Kabel mit dem Router LERNKUBE verbinden und via ssh Verbinden
-    
-Grundinstallation:
-  
-    ssh 192.168.2.xx -l pi
-    PW: raspberry
-    WLAN, Zeitzone etc. in raspi-config Einstellen
-    sudo raspi-config
-
-Quelle: https://howtoraspberrypi.com/how-to-raspberry-pi-headless-setup/ 
-
-Anschliessend bietet sich [Docker](https://docker.com) als Container Umgebung an. Docker kann wie folgt installiert werden:
-
-    ssh 192.168.2.xx -l pi
-    sudo -i
-    cd /tmp
-    wget -O get-docker.sh http://get.docker.com
-    sh get-docker.sh
-    sudo usermod -aG docker pi
-    exit
-
-Testen der Docker Umgebung:
-
-    ssh 192.168.2.xx -l pi
-    docker run hello-world
-    
-Nach der Installation der benötigten Grundinfrastruktur können wir loslegen und die eigentliche Software als Container starten.
-
-Wir verwenden wie im [Workflow Beispiel](../workflow) [Node-RED](https://nodered.org/) und Mosquitto und bauen das Beispiel dann Stück für Stück aus.
-
-    docker run -d -p 1880:1880 nodered/node-red
-    docker run -d -p 1883:1883 eclipse-mosquitto
-    
-Die eigentliche Applikation Node-RED ist via Browser <IP-Raspberry Pi:1880> zugreifbar.
-
-
+* [mosquitto](https://projects.eclipse.org/projects/iot.mosquitto) und [Node-RED](https://nodered.org/) manuell Installieren, wie auf den entsprechenden Produktseiten beschrieben.
+   
 #### Raspberry Pi 4 als Edge aufsetzen
 
-Grundsätzlich kann der Raspberry Pi 4 wie die Version 2, 3 installiert werden. Aber statt Docker installieren wir, die leichtgewichtige Kubernetes Variante [k3s](https://k3s.io/).
+Der Raspberry Pi 4 hat mehr Leistung, deshalb lohnt es sich eine [Kubernetes](https://kubernetes.io/de/) Umgebung einzurichten.
 
-Installationsschritte wie oben aber ohne Docker ausführen, stattdessen installieren wir [k3s](https://k3s.io/).
+Dazu verwenden wir [Ubuntu Server für ARM 64bit](https://ubuntu.com/download/raspberry-pi). Eine ausführliche Anleitung gibt es [hier](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#3-wifi-or-ethernet).
 
-    #   Installiert Rancher k3s ohne Ingress Controller traefik
-    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--no-deploy=traefik" sh -s -
+Anschliessend erfolgt die Installation von der Ubuntu Kubernetes Distribution [microk8s](https://microk8s.io/). Eine ausführliche Anleitung gibt es [hier](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#1-overview).
 
-    # pi User als Admin zulassen
-    sudo mkdir -p /home/pi/.kube
-    sudo cp /etc/rancher/k3s/k3s.yaml /home/pi/.kube/config
-    sudo chown -R pi:pi /home/pi/.kube
-    sudo chmod 700 /home/pi/.kube
-    sudo echo 'export KUBECONFIG=$HOME/.kube/config' >>/home/pi/.bashrc 
-    
-Optional lohnt es sich dem Raspberry Pi ein Web-UI zu spendieren. Das vereinfacht den Zugriff auf die Kubernetes Ressourcen.
-
-    # Apache Server als Web UI installieren
-    sudo apt install -y apache2 jq markdown
-    sudo a2enmod cgi
-    sudo systemctl restart apache2
-
-    # Web-UI einrichten
-    git clone https://github.com/mc-b/IoTKitV3
-    cd IoTKitV3/edge/
-    sudo cp cgi-bin/* /usr/lib/cgi-bin/
-    sudo chmod +x /usr/lib/cgi-bin/*
-    sudo cp html/* /var/www/html/
-    
-    # www-data User Zugriff auf Kubernetes erlauben
-    sudo mkdir -p /var/www/.kube
-    sudo cp /etc/rancher/k3s/k3s.yaml /var/www/.kube/config
-    sudo chown -R www-data:www-data /var/www/.kube
-    sudo chmod 700 /var/www/.kube    
-   
 Nach der Installation der benötigten Grundinfrastruktur können wir loslegen und die eigentliche Software als Container starten.
 
 Wir verwenden wie im [Workflow Beispiel](../workflow) [Node-RED](https://nodered.org/) und Mosquitto und bauen das Beispiel dann Stück für Stück aus.
     
     # IoT Umgebung 
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/mosquitto.yaml
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/nodered.yaml
+    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/mosquitto-arm64.yaml
+    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/nodered-arm64.yaml
     
-Über welche Ports die Services verfügbar sind kann im Web-UI nachgeschaut oder mittels des nachfolgenden Befehls ermittelt werden:
+Der Mosquitto Broker ist auf Port 31883 (nur MQTT-Protokoll, kein UI) und Node-Red auf Port 32600 verfügbar.    
 
-    kubectl get services
-    
-Werden mehrere Node-RED Umgebungen benötigt, können diese in neuen Kubernetes Namespaces gestartet werden.   
-
-    kubectl create namespace nr1
-    kubectl apply -n nr1 -f https://raw.githubusercontent.com/mc-b/duk/master/iot/nodered.yaml   
-
-### Cloud Umgebung
 ***
+### Cloud Umgebung
 
-**Variante a) lernMAAS oder ModTec Umgebung**
+**Variante a) lernMAAS mit ModTec Umgebung**
 
 In einer [lernMAAS](https://github.com/mc-b/lernmaas) Umgebung ist eine VM mit Namen `modtec-XX` (XX = Hostanteil für VPN) zu erstellen und auf dem lokalen Notebook kann die 
 Umgebung vom [ModTec Kurs](https://github.com/mc-b/modtec) verwendet werden. 
@@ -158,48 +91,65 @@ Bei beiden Umgebungen sind alle benötigten Services wie Camunda, Node-RED, Kafk
 
 Evtl. muss der BPMN Prozess noch veröffentlicht werden.
 
-**Variante b) Manuelle Installation**
+**Variante b) Cloud und Cloud-init**
 
-Installieren von 
-* [Camunda BPMN Workflow Engine](https://camunda.com/)
-* [Camunda Modeler](https://camunda.com/)
-* Download des Rechnungsprozesses vom Projekt [misegr](https://raw.githubusercontent.com/mc-b/misegr/master/bpmn/RechnungStep3.bpmn)
-* Import des Rechnungsprozesses [RechnungStep3.bpmn](https://raw.githubusercontent.com/mc-b/misegr/master/bpmn/RechnungStep3.bpmn) in den Modeler
-* Export des Rechnungsprozesse vom Modeler in die BPMN Workflow Engine.
+Erstellen Sie einen Account für die [AWS](https://aws.amazon.com/de/free/) oder [Azure](https://azure.microsoft.com/de-de/overview/what-is-azure/iaas/) Cloud.
 
-**Variante c) in einer Kubernetes Umgebung** 
+Erstellen Sie eine neue Virtuelle Maschine mit min. 2 CPUs, 4 GB RAM. Als Betriebsystem nehmen Sie Ubuntu ab der Version 18.04.
 
-Starten der [Camunda BPMN Workflow Engine](https://camunda.com/). Download Rechnungsprozesses [RechnungStep3.bpmn](https://raw.githubusercontent.com/mc-b/misegr/master/bpmn/RechnungStep3.bpmn). 
+Im Feld `custom data` o.ä. füllen Sie folgende [Cloud-init](https://cloudinit.readthedocs.io/en/latest/) Konfiguration ein:
 
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/misegr/master/bpmn/camunda.yaml
-    wget https://raw.githubusercontent.com/mc-b/misegr/master/bpmn/RechnungStep3.bpmn -O RechnungStep3.bpmn
-    
-warten bis die Workflow Umgebung gestartet ist und veröffentlichen des Rechnungsprozesses, mittels REST Schnittstelle:
+    #cloud-config
+    users:
+      - name: ubuntu
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        groups: users, admin
+        home: /home/ubuntu
+        shell: /bin/bash
+        lock_passwd: false
+        plain_text_passwd: 'password'        
+    # login ssh and console with password
+    ssh_pwauth: true
+    disable_root: false    
+    packages:
+      - unzip
+    runcmd:
+      - sudo snap install microk8s --classic
+      - sudo usermod -a -G microk8s ubuntu
+      - sudo microk8s enable dns  
+      - sudo mkdir -p /home/ubuntu/.kube
+      - sudo microk8s config >/home/ubuntu/.kube/config
+      - sudo chown -f -R ubuntu /home/ubuntu/.kube
+      - sudo snap install kubectl --classic
+      - sudo mkdir /data
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/lernkube/master/data/DataVolume.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/addons/dashboard-skip-login-no-ingress.yaml
+      - (cd /tmp; git clone https://github.com/mc-b/mlg; cd mlg; microk8s kubectl apply -f jupyter/jupyter-mlg.yaml; cp -rpv data/* /data/ )
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/mosquitto.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/kafka/zookeeper.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/kafka/kafka.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/iot.kafka/master/iot-kafka-alert.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/iot.kafka/master/iot-kafka-consumer.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/iot.kafka/master/iot-kafka-pipe.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/nodered-kafka.yaml
+      - sudo microk8s kubectl apply -f https://raw.githubusercontent.com/mc-b/misegr/master/bpmn/camunda.yaml
+      - sudo apt-get update  
+      - sudo apt-get install -y mosquitto-clients curl git unzip
+      - sudo chmod -R o=u,g=u /data  
+      - sudo chmod 777 /data 
 
-    curl -k -w "\n" \
-    -H "Accept: application/json" \
-    -F "deployment-name=rechnung" \
-    -F "enable-duplicate-filtering=true" \
-    -F "deploy-changed-only=true" \
-    -F "Rechnung.bpmn=@RechnungStep3.bpmn" \
-    https://localhost:30443/engine-rest/deployment/create    
+Nach erfolgreicher Installation sind folgende Services verfügbar:
+* [Camunda BPMN Workflow Engine](https://camunda.com/) auf http://<ip vm>:30880/camunda/
+* [mosquitto](https://projects.eclipse.org/projects/iot.mosquitto) auf Port 31883 (nur MQTT Protokoll ohne UI)
+* [Node-RED](https://nodered.org/) auf http://<ip vm>:32600
+* [Jupyter mit Machine Learning Notebooks](https://jupyter.org/) auf http://<ip vm>:32088
+* [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) auf https://<ip vm>
 
-Details zu BPMN und dem Prozess [siehe](https://github.com/mc-b/misegr/tree/master/bpmn).
-    
-Starten der weiteren Services wie Node-RED, Kafka etc.
+**ACHTUNG**: das ist eine Lernumgebung, werden die Ports gegen das gesamte Internet geöffnet ist die VM ungeschützt im Internet. Ports nur für eigene IP-Adresse (Router) öffnen.
 
-    # IoT Umgebung 
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/iot/nodered.yaml
+**Veröffentlichung des BPMN Prozesses**
 
-    # Messaging Umgebung 
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/kafka/zookeeper.yaml
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/duk/master/kafka/kafka.yaml
-
-    # Kafka Streams 
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/iot.kafka/master/iot-kafka-alert.yaml
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/iot.kafka/master/iot-kafka-consumer.yaml
-    kubectl apply -f https://raw.githubusercontent.com/mc-b/iot.kafka/master/iot-kafka-pipe.yaml     
-       
+Die Pipeline braucht einen vorbereitenden [BPMN Prozess](https://github.com/mc-b/bpmn-tutorial#schritt-2---prozess-ver%C3%B6ffentlichen-und-ausf%C3%BChren). Diesen können Sie über das Juypter Notebook http://<ip vm>:32088/notebooks/Microservices-BPMN-microk8s.ipynb veröffentlichen.
 
 #### Node-RED (MQTT - nach HTTP/REST)
 
