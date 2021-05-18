@@ -151,7 +151,8 @@ Nach erfolgreicher Installation sind folgende Services verfügbar:
 
 Die Pipeline braucht einen vorbereitenden [BPMN Prozess](https://github.com/mc-b/bpmn-tutorial#schritt-2---prozess-ver%C3%B6ffentlichen-und-ausf%C3%BChren). Diesen können Sie über das Juypter Notebook http://<ip vm>:32088/notebooks/Microservices-BPMN-microk8s.ipynb veröffentlichen.
 
-#### Node-RED (MQTT - nach HTTP/REST)
+***
+### Node-RED (MQTT - nach HTTP/REST)
 
 ![](https://raw.githubusercontent.com/iotkitv3/intro/main/images/NodeREDREST.png)
 
@@ -174,7 +175,8 @@ Details zum BPMN Prozess und der URL wie ein Prozess gestartet werden kann steht
 
 Der Flow zum importieren und anpassen, siehe [Node-RED-REST.json](Node-RED-REST.json).
 
-#### Node-RED (MQTT - Kafka Messaging)
+***
+### Node-RED (MQTT - Kafka Messaging)
 
 ![](https://raw.githubusercontent.com/iotkitv3/intro/main/images/NodeREDKafka.png)
 
@@ -209,7 +211,8 @@ Topics auslesen, lesen und schreiben auf Topics in Kafka Container, siehe [Proje
 
 Der Flow zum importieren und anpassen, siehe [Node-RED-Kafka.json](Node-RED-Kafka.json).
 
-#### Machine Learning mit Juypter Notebooks
+***
+### Machine Learning mit Juypter Notebooks
 
 ![](https://raw.githubusercontent.com/iotkitv3/intro/main/images/MachineLearning.png)
 
