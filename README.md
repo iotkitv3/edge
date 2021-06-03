@@ -147,7 +147,7 @@ Nach erfolgreicher Installation sind folgende Services verfügbar:
 
 **ACHTUNG**: das ist eine Lernumgebung, werden die Ports gegen das gesamte Internet geöffnet ist die VM ungeschützt im Internet. Ports nur für eigene IP-Adresse (Router) öffnen.
 
-**Hinweis**: Statt die VM über das Cloud UI zu Erstellen, kann auch das CLI der Cloud Anbieter verwendet werden. Dazu erstellt man einen Datei `cloud-init.cfg` und fügt obigen Inhalt in die Datei. Die weiteren Befehle stehen [hier](https://github.com/mc-b/iac/blob/main/cloud-iac-cli.md).
+**Hinweis**: Statt die VM über das Cloud UI zu Erstellen, kann auch das CLI der Cloud Anbieter verwendet werden. Dazu erstellt man eine Datei `cloud-init.cfg` und fügt obigen Inhalt in die Datei. Die weiteren Befehle stehen [hier](https://github.com/mc-b/iac/blob/main/cloud-iac-cli.md).
 
 **Veröffentlichung des BPMN Prozesses**
 
