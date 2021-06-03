@@ -140,7 +140,7 @@ Im Feld `custom data` o.ä. füllen Sie folgende [Cloud-init](https://cloudinit.
 
 Nach erfolgreicher Installation sind folgende Services verfügbar:
 * [Camunda BPMN Workflow Engine](https://camunda.com/) auf http://[ip vm]:30880/camunda/
-* [mosquitto](https://projects.eclipse.org/projects/iot.mosquitto) auf Port 31883 (nur MQTT Protokoll ohne UI)
+* [mosquitto](https://projects.eclipse.org/projects/iot.mosquitto) auf Port 31883 (nur MQTT Broker ohne UI)
 * [Node-RED](https://nodered.org/) auf http://[ip vm]:32600
 * [Jupyter mit Machine Learning Notebooks](https://jupyter.org/) auf http://[ip vm]:32088
 * [Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) auf https://[ip vm]
@@ -149,7 +149,7 @@ Nach erfolgreicher Installation sind folgende Services verfügbar:
 
 **Veröffentlichung des BPMN Prozesses**
 
-Die Pipeline braucht einen vorbereitenden [BPMN Prozess](https://github.com/mc-b/bpmn-tutorial#schritt-2---prozess-ver%C3%B6ffentlichen-und-ausf%C3%BChren). Diesen können Sie über das Juypter Notebook http://<ip vm>:32088/notebooks/Microservices-BPMN-microk8s.ipynb veröffentlichen.
+Die Pipeline braucht einen vorbereitenden [BPMN Prozess](https://github.com/mc-b/bpmn-tutorial#schritt-2---prozess-ver%C3%B6ffentlichen-und-ausf%C3%BChren). Diesen können Sie über das Juypter Notebook http://[ip vm]:32088/notebooks/Microservices-BPMN-microk8s.ipynb veröffentlichen.
 
 ***
 ### Node-RED (MQTT - nach HTTP/REST)
