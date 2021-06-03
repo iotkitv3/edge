@@ -147,6 +147,8 @@ Nach erfolgreicher Installation sind folgende Services verfügbar:
 
 **ACHTUNG**: das ist eine Lernumgebung, werden die Ports gegen das gesamte Internet geöffnet ist die VM ungeschützt im Internet. Ports nur für eigene IP-Adresse (Router) öffnen.
 
+**Hinweis**: Statt die VM über das jeweilige UI zu Erstellen, kann auch das CLI (az oder aws) der Cloud Anbieter verwendet werden. Dazu erstellt man einen Datei `cloud-init.cfg` und fügt obigen Inhalt in die Datei. Die jeweiligen Befehle stehen [hier](https://github.com/mc-b/iac/blob/main/cloud-iac-cli.md).
+
 **Veröffentlichung des BPMN Prozesses**
 
 Die Pipeline braucht einen vorbereitenden [BPMN Prozess](https://github.com/mc-b/bpmn-tutorial#schritt-2---prozess-ver%C3%B6ffentlichen-und-ausf%C3%BChren). Diesen können Sie über das Juypter Notebook http://[ip vm]:32088/notebooks/Microservices-BPMN-microk8s.ipynb veröffentlichen.
