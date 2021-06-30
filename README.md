@@ -205,7 +205,15 @@ Dadurch erhalten wird neu `Nodes` für die Integration mit [Apache Kafka](https:
     * Kafka Producer auf Flow 1 platzieren und mit Kafka Server (kafka:9092) verbinden
     * Alle Nodes wie oben in der Grafik verbinden und veröffentlichen (deploy).
 * Kubernetes    
-    * Das Ergebnis kann mittels `logs iot-kafka-consumer`, logs iot-kafka-pipe` angeschaut werden. Dort sollten die MQTT Messages umgewandelt als Kafka Messages erscheinen.
+    * Neben Kafka wurden drei Microservices, `iot-kafka-alert` (Weiterleitung iotkit/alert Topic an Camunda), `iot-kafka-consumer` (Schreiben der Sensordaten nach /data/ml-data.csv) und `iot-kafka-pipe` (Umwandeln der Sensordaten ins JSON Format), gestartet.
+    * Das Ergebnis kann mittels `kubectl logs deployment/iot-....` angeschaut werden. 
+
+<pre>
+    kubectl logs deployment/iot-kafka-alert
+    kubectl logs deployment/iot-kafka-consumer
+    kubectl logs deployment/iot-kafka-pipe
+</pre>
+
 * In Camunda BPMN Workflow Engine [https://localhost:30443/camunda](https://localhost:30443/camunda) (URL kann abweichen, je nach Umgebung) einloggen mittels User/Password `demo/demo`. Bei jedem Alarm welcher vom Board (Hall Sensor) mittels Magneten ausgelöst wird, sollte ein neuer Rechnungsprozess gestartet werden.
     
 
