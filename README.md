@@ -116,7 +116,7 @@ Im Feld `custom data` o.ä. füllen Sie folgende [Cloud-init](https://cloudinit.
     runcmd:
       - sudo snap install microk8s --classic
       - sudo usermod -a -G microk8s ubuntu
-      - sudo microk8s enable dns  
+      - sudo microk8s enable dns ingress
       - sudo mkdir -p /home/ubuntu/.kube
       - sudo microk8s config >/home/ubuntu/.kube/config
       - sudo chown -f -R ubuntu /home/ubuntu/.kube
